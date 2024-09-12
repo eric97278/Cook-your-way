@@ -16,7 +16,13 @@ class HomeFragment : Fragment() {
 
         //recuperer le recyclerView
         val horizontalRecyclerView = view.findViewById<RecyclerView>(R.id.horizontal_recycler_view)
-        horizontalRecyclerView.adapter = RecipeAdapter()
+        horizontalRecyclerView.adapter = RecipeAdapter(R.layout.item_horizontal_recipe)
+
+        //recuperer le second recyclerview
+        val verticalRecyclerView = view.findViewById<RecyclerView>(R.id.vertical_recycler_view)
+        verticalRecyclerView.adapter = RecipeAdapter(R.layout.item_vertical_recipe)
+
+
 
         return view
 

@@ -7,7 +7,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import fr.eric97278.cookyourway.R
 
-class RecipeAdapter : RecyclerView.Adapter<RecipeAdapter.ViewHolder>(){
+class RecipeAdapter(private val layoutId: Int) : RecyclerView.Adapter<RecipeAdapter.ViewHolder>(){
 
     //boite pour ranger tout les composant a controller
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
@@ -18,7 +18,8 @@ class RecipeAdapter : RecyclerView.Adapter<RecipeAdapter.ViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater
             .from(parent.context)
-            .inflate(R.layout.item_horizontal_recipe, parent, false)
+            .inflate(layoutId, parent, false)
+
             return ViewHolder(view)
     }
         //combien d'item dans la liste
