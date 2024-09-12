@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">Cook your way</string>
+
+    <!--Page d'accueil-->
+    <string name="home_page_title">A découvrir</string>
+    <string name="home_page_last_recipes">Les dernières recettes</string>
+
+    <!--Page de collection-->
+    <string name="collection_page_title">Ma collection</string>
+
+    <!--Page de collection-->
+    <string name="add_recipe_page_title">Ajouter une recette</string>
+    <string name="add_recipe_page_upload_button">Charger une image</string>
+    <string name="add_recipe_page_name_input">@string/item_recipe_name</string>
+    <string name="add_recipe_page_description_input">@string/item_recipe_description</string>
+
+    <string-array name="add_plant_page_difficulte_spinner_input">
+        <item>Difficulter : Facile</item>
+        <item>Difficulter : Moyen</item>
+        <item>Difficulter : Difficile</item>
+    </string-array>
+
+    <string-array name="add_recipe_page_duration_spinner_input">
+        <item>Durée : 15 min</item>
+        <item>Durée : 30 min</item>
+        <item>Durée : 45 min</item>
+        <item>Durée : 60 min</item>
+        <item>Durée : 90 min</item>
+        <item>Durée : 120 min</item>
+        <item>Durée : +120 min</item>
+    </string-array>
+
+    <string name="add_recipe_page_confirm_button">Confirmer</string>
+
+    <!--Recette customise-->
+    <string name="item_recipe_name">Nom de la recette</string>
+    <string name="item_recipe_description">Description de la recette</string>
+
+    <!--Fenetre de popup de details-->
+    <string name="popup_recipe_name">Nom de la recette</string>
+    <string name="popup_recipe_description_title">Description</string>
+    <string name="popup_recipe_description_subtitle">Petite description</string>
+    <string name="popup_recipe_difficulty_title">Difficulté</string>
+    <string name="popup_recipe_difficulty_subtitle">Facile</string>
+    <string name="popup_recipe_duration_title">Durée</string>
+    <string name="popup_recipe_duration_subtitle">15 min</string>
+
+
+
+</resources>
