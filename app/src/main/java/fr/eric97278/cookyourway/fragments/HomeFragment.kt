@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import fr.eric97278.cookyourway.R
 import fr.eric97278.cookyourway.adapter.RecipeAdapter
+import fr.eric97278.cookyourway.adapter.RecipeItemDecoration
 
 class HomeFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -21,6 +22,7 @@ class HomeFragment : Fragment() {
         //recuperer le second recyclerview
         val verticalRecyclerView = view.findViewById<RecyclerView>(R.id.vertical_recycler_view)
         verticalRecyclerView.adapter = RecipeAdapter(R.layout.item_vertical_recipe)
+        verticalRecyclerView.addItemDecoration(RecipeItemDecoration())
 
 
 
