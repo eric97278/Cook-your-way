@@ -29,9 +29,9 @@ class HomeFragment (
             "Frait et bon pour la santé",
             ingredients = arrayListOf("pommes", "bananes", "poires"),
             imageURL = "https://media.istockphoto.com/id/1225981808/fr/photo/un-bol-de-salade-de-fruits-maison-sain-tir%C3%A9-den-haut.jpg?s=2048x2048&w=is&k=20&c=TSV3PMZzimEFqTlbii3uq5SdYuQ9Adi7apdCcu0ur84=",
-            difficulty = "Facile",
+            difficulty = " Facile",
             steps = "couper les fruits",
-            time = 10,
+            time = "10 min",
             liked = true
 
 
@@ -42,9 +42,9 @@ class HomeFragment (
             "Frait et bon pour la santé",
             ingredients = arrayListOf("pommes", "bananes", "poires"),
             imageURL = "https://media.istockphoto.com/id/1225981808/fr/photo/un-bol-de-salade-de-fruits-maison-sain-tir%C3%A9-den-haut.jpg?s=2048x2048&w=is&k=20&c=TSV3PMZzimEFqTlbii3uq5SdYuQ9Adi7apdCcu0ur84=",
-            difficulty = "Facile",
+            difficulty = " Facile",
             steps = "couper les fruits",
-            time = 10,
+            time = "10 min",
             liked = true
 
 
@@ -55,9 +55,9 @@ class HomeFragment (
             "Frait et bon pour la santé",
             ingredients = arrayListOf("pommes", "bananes", "poires"),
             imageURL = "https://media.istockphoto.com/id/1225981808/fr/photo/un-bol-de-salade-de-fruits-maison-sain-tir%C3%A9-den-haut.jpg?s=2048x2048&w=is&k=20&c=TSV3PMZzimEFqTlbii3uq5SdYuQ9Adi7apdCcu0ur84=",
-            difficulty = "Facile",
+            difficulty = " Facile",
             steps = "couper les fruits",
-            time = 10,
+            time = "10 min",
             liked = true
 
 
@@ -68,9 +68,9 @@ class HomeFragment (
             "Frait et bon pour la santé",
             ingredients = arrayListOf("pommes", "bananes", "poires"),
             imageURL = "https://media.istockphoto.com/id/1225981808/fr/photo/un-bol-de-salade-de-fruits-maison-sain-tir%C3%A9-den-haut.jpg?s=2048x2048&w=is&k=20&c=TSV3PMZzimEFqTlbii3uq5SdYuQ9Adi7apdCcu0ur84=",
-            difficulty = "Facile",
+            difficulty = " Facile",
             steps = "couper les fruits",
-            time = 10,
+            time = "10 min",
             liked = true
 
 

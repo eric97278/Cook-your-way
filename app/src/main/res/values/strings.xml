@@ -40,10 +40,10 @@
     <string name="popup_recipe_name">Nom de la recette</string>
     <string name="popup_recipe_description_title">Description</string>
     <string name="popup_recipe_description_subtitle">Petite description</string>
-    <string name="popup_recipe_difficulty_title">Difficulté</string>
-    <string name="popup_recipe_difficulty_subtitle">Facile</string>
-    <string name="popup_recipe_duration_title">Durée</string>
-    <string name="popup_recipe_duration_subtitle">15 min</string>
+    <string name="popup_recipe_difficulty_title">Difficulté : </string>
+    <string name="popup_recipe_difficulty_subtitle"> Facile</string>
+    <string name="popup_recipe_duration_title">Durée : </string>
+    <string name="popup_recipe_duration_subtitle"> 15 min</string>
 
 
 
