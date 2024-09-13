@@ -4,10 +4,10 @@ class RecipeModel (
     val id: String,
     val name: String,
     val description: String,
-    val ingredients: String,
+    val ingredients: ArrayList<String>,
     val imageURL: String,
     val difficulty: String,
-    val time: String,
+    val time: Int,
     val steps: String,
     val liked: Boolean
 )

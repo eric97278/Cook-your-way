@@ -1,17 +1,35 @@
 package fr.eric97278.cookyourway.adapter
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import fr.eric97278.cookyourway.MainActivity
 import fr.eric97278.cookyourway.R
+import fr.eric97278.cookyourway.RecipeModel
 
-class RecipeAdapter(private val layoutId: Int) : RecyclerView.Adapter<RecipeAdapter.ViewHolder>(){
+class RecipeAdapter(
+    private val context: MainActivity,
+    private val recipeList: List<RecipeModel>,
+    private val layoutId: Int) : RecyclerView.Adapter<RecipeAdapter.ViewHolder>(){
 
     //boite pour ranger tout les composant a controller
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
         val recipeImage = view.findViewById<ImageView>(R.id.image_item)
+        val recipeName: TextView? = view.findViewById(R.id.name_item)
+        val recipeDescription:TextView? = view.findViewById(R.id.description_item)
+        val recipeDifficulty:TextView? = view.findViewById(R.id.difficulty_item)
+        val recipeDifficultySubtitle:TextView? = view.findViewById(R.id.difficulty_subtitle_item)
+        val recipeTime:TextView? = view.findViewById(R.id.time_item)
+        val recipeTimeSubtitle:TextView? = view.findViewById(R.id.time_subtitle_item)
+       // val recipeIngredients:TextView? = view.findViewById(R.id.ingredients_item)
+       // val recipeSteps:TextView? = view.findViewById(R.id.steps_item)
+      //  val recipeLiked:ImageView? = view.findViewById(R.id.liked_item)
+
 
     }
         //Injecte le composant
@@ -23,10 +41,26 @@ class RecipeAdapter(private val layoutId: Int) : RecyclerView.Adapter<RecipeAdap
             return ViewHolder(view)
     }
         //combien d'item dans la liste
-    override fun getItemCount(): Int = 5
+    override fun getItemCount(): Int = recipeList.size
 
         //mets a jour chaque composant
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    // recuperer les informations de la recette
+        val currentRecipe = recipeList[position]
 
+            //mettre a jour le nom de la recette
+            holder.recipeName?.text = currentRecipe.name
+
+            //mettre a jour la description de la recette
+            holder.recipeDescription?.text = currentRecipe.description
+            //mettre a jour la difficulté de la recette
+            holder.recipeDifficulty?.text = currentRecipe.difficulty
+            holder.recipeDifficultySubtitle?.text = currentRecipe.difficulty
+            //mettre a jour le temps de la recette
+            holder.recipeTime?.text = currentRecipe.time.toString()
+            holder.recipeTimeSubtitle?.text = currentRecipe.time.toString()
+
+            //utiliser glide pour récupérer l'image à partir de son lien -> composant
+            Glide.with(context).load(Uri.parse(currentRecipe.imageURL)).into(holder.recipeImage)
     }
 }
