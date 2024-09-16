@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Image de la recette -->
+    <ImageView
+        android:id="@+id/image_item"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/item_recipe_description"
+        android:src="@drawable/food" /> <!-- Placeholder image -->
+
+    <!-- Nom de la recette -->
+    <TextView
+        android:id="@+id/name_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:text="Nom de la recette"
+        android:layout_marginTop="8dp" />
+
+    <!-- Description de la recette -->
+    <TextView
+        android:id="@+id/description_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description de la recette"
+        android:layout_marginTop="4dp" />
+
+    <!-- Difficulté de la recette -->
+    <TextView
+        android:id="@+id/difficulty_subtitle_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Difficulté : Facile"
+        android:layout_marginTop="4dp" />
+
+    <!-- Temps de préparation -->
+    <TextView
+        android:id="@+id/time_subtitle_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Temps : 30 min"
+        android:layout_marginTop="4dp" />
+
+    <!-- Identifiant de la recette (caché ou utilisé pour des raisons internes) -->
+    <TextView
+        android:id="@+id/id_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="ID" />
+
+    <!-- Ingrédients -->
+    <TextView
+        android:id="@+id/ingredients_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ingrédients : Tomate, Salade, Steack"
+        android:layout_marginTop="4dp" />
+
+    <!-- Étapes de préparation -->
+    <TextView
+        android:id="@+id/steps_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Étapes : Préparer les ingrédients et les superposer"
+        android:layout_marginTop="4dp" />
+
+    <!-- Icône d'étoile (pour indiquer si la recette est aimée) -->
+    <ImageView
+        android:id="@+id/star_icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="end"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_star" /> <!-- Placeholder pour l'icône d'étoile -->
+
+</LinearLayout>

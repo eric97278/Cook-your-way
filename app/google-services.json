@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "147985170071",
+    "project_id": "cook-your-way-7ed5e",
+    "storage_bucket": "cook-your-way-7ed5e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:147985170071:android:a7fca62769f8d0e34733d2",
+        "android_client_info": {
+          "package_name": "fr.eric97278.cookyourway"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-O1eQBUU3JGt5ELXzUIC-Fn1pac6Dwns"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

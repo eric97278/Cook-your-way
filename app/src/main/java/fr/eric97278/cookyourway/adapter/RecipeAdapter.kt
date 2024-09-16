@@ -24,10 +24,9 @@ class RecipeAdapter(
         val recipeDescription: TextView? = view.findViewById(R.id.description_item)
         val recipeDifficultySubtitle: TextView? = view.findViewById(R.id.difficulty_subtitle_item)
         val recipeTimeSubtitle: TextView? = view.findViewById(R.id.time_subtitle_item)
-
-        // val recipeIngredients:TextView? = view.findViewById(R.id.ingredients_item)
-        // val recipeSteps:TextView? = view.findViewById(R.id.steps_item)
-        //  val recipeLiked:ImageView? = view.findViewById(R.id.liked_item)
+        val recipeId:TextView? = view.findViewById(R.id.id_item)
+        val recipeIngredients:TextView? = view.findViewById(R.id.ingredients_item)
+        val recipeSteps:TextView? = view.findViewById(R.id.steps_item)
         val starIcon = view.findViewById<ImageView>(R.id.star_icon)
 
 
@@ -63,7 +62,17 @@ class RecipeAdapter(
         holder.recipeTimeSubtitle?.text = currentRecipe.time.toString()
 
         //utiliser glide pour récupérer l'image à partir de son lien -> composant
-        Glide.with(context).load(Uri.parse(currentRecipe.imageURL)).into(holder.recipeImage)
+        Glide.with(context).load(Uri.parse(currentRecipe.imageUrl)).into(holder.recipeImage)
+
+        //mettre a jour les ingredients de la recette
+        holder.recipeIngredients?.text = currentRecipe.ingredients
+
+        //mettre a jour les steps de la recette
+        holder.recipeSteps?.text = currentRecipe.steps
+
+        //mettre a jour l'id de la recette
+        holder.recipeId?.text = currentRecipe.id
+
 
         //vérifier si la recette est liké
         if (currentRecipe.liked) {
