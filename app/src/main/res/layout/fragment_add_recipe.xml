@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/upload_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_recipe_page_upload_button"
+                android:background="@color/purple"
+                style="@style/TitleTextStyle"
+                android:textColor="@color/white"
+                android:padding="@dimen/default_margin"/>
+
+            <ImageView
+                android:id="@+id/preview_image"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/image_default" />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/name_input"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:hint="@string/add_recipe_page_name_input"
+            style="@style/DefaultTextStyle"
+            android:padding="@dimen/default_margin"
+            android:layout_marginTop="@dimen/default_margin"/>
+
+        <EditText
+            android:id="@+id/description_input"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:hint="@string/add_recipe_page_description_input"
+            style="@style/DefaultTextStyle"
+            android:padding="@dimen/default_margin"
+            android:layout_marginTop="@dimen/default_margin"/>
+
+        <Spinner
+            android:id="@+id/difficulty_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="@dimen/default_margin"
+            android:entries="@array/add_recipe_page_difficulte_spinner_input"
+            android:paddingStart="@dimen/default_margin"
+            android:paddingEnd="@dimen/default_margin"/>
+
+        <Spinner
+            android:id="@+id/duration_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="@dimen/default_margin"
+            android:entries="@array/add_recipe_page_duration_spinner_input"
+            android:paddingStart="@dimen/default_margin"
+            android:paddingEnd="@dimen/default_margin"/>
+
+        <TextView
+            android:id="@+id/ingredient_input"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:text="@string/add_recipe_page_ingredient_title"
+            style="@style/TitleTextStyle"
+            android:layout_marginStart="@dimen/default_margin"/>
+
+        <TextView
+            android:id="@+id/steps_input"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:text="@string/add_recipe_page_steps_details"
+            style="@style/TitleTextStyle"
+            android:layout_marginStart="@dimen/default_margin"/>
+
+        <Button
+            android:id="@+id/confirm_button"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@color/green"
+            android:text="@string/add_recipe_page_confirm_button"
+            android:textSize="25sp"
+            android:textColor="@color/black"
+            android:padding="@dimen/default_margin"
+            android:layout_marginTop="@dimen/default_margin"/>
+    </LinearLayout>
+</ScrollView>

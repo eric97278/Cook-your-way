@@ -14,7 +14,7 @@
     <string name="add_recipe_page_name_input">@string/item_recipe_name</string>
     <string name="add_recipe_page_description_input">@string/item_recipe_description</string>
 
-    <string-array name="add_plant_page_difficulte_spinner_input">
+    <string-array name="add_recipe_page_difficulte_spinner_input">
         <item>Difficulter : Facile</item>
         <item>Difficulter : Moyen</item>
         <item>Difficulter : Difficile</item>
@@ -48,6 +48,8 @@
     <string name="popup_recipe_ingredient_details">voici les ingrédients pour la recette</string>
     <string name="popup_recipe_steps_title">étapes</string>
     <string name="popup_recipe_steps_details">voici les étapes pour la recette</string>
+    <string name="add_recipe_page_ingredient_title">ajouter les ingredients</string>
+    <string name="add_recipe_page_steps_details">ajouter les étapes</string>
 
 
 </resources>
