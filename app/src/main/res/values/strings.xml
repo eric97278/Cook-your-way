@@ -44,7 +44,10 @@
     <string name="popup_recipe_difficulty_subtitle"> Facile</string>
     <string name="popup_recipe_duration_title">Durée : </string>
     <string name="popup_recipe_duration_subtitle"> 15 min</string>
-
+    <string name="popup_recipe_ingredient_title">ingredients</string>
+    <string name="popup_recipe_ingredient_details">voici les ingrédients pour la recette</string>
+    <string name="popup_recipe_steps_title">étapes</string>
+    <string name="popup_recipe_steps_details">voici les étapes pour la recette</string>
 
 
 </resources>
