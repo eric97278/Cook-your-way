@@ -23,8 +23,17 @@ class RecipePopup(
         setContentView(R.layout.popup_recipe_details)
         setupComponents()
         setupCloseButton()
+        setupDeleteButton()
 
 
+    }
+
+    private fun setupDeleteButton() {
+        findViewById<ImageView>(R.id.delete_button).setOnClickListener {
+            //supprimer la recette de la base de données
+            val repo = RecipeRepository()
+            repo.deleteRecipe(currentRecipe)
+        }
     }
 
     private fun setupCloseButton() {

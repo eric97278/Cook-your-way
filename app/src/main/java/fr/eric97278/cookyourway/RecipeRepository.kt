@@ -57,4 +57,8 @@ class RecipeRepository {
         databaseRef.child(recipe.id).setValue(recipe)
     }
 
+    //supprimer un objet recette de la base de données
+    fun deleteRecipe(recipe: RecipeModel)= databaseRef.child(recipe.id).removeValue()
+
+
 }
