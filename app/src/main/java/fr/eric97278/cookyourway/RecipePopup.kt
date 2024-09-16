@@ -22,8 +22,16 @@ class RecipePopup(
         //afficher la popup
         setContentView(R.layout.popup_recipe_details)
         setupComponents()
+        setupCloseButton()
 
 
+    }
+
+    private fun setupCloseButton() {
+        findViewById<ImageView>(R.id.close_button).setOnClickListener {
+            //fermer la popup
+            dismiss()
+        }
     }
 
     private fun setupComponents() {
