@@ -24,8 +24,32 @@ class RecipePopup(
         setupComponents()
         setupCloseButton()
         setupDeleteButton()
+        setupStarButton()
+
+    }
+
+    private fun updateStar(button: ImageView) {
+        if(currentRecipe.liked){
+            button.setImageResource(R.drawable.ic_star)
+        }
+        else{
+            button.setImageResource(R.drawable.ic_unstar)
+        }
+    }
+
+    private fun setupStarButton() {
+        //récupérer
+        val starButton = findViewById<ImageView>(R.id.star_button)
+        updateStar(starButton)
 
 
+        //interaction
+        starButton.setOnClickListener {
+            currentRecipe.liked = !currentRecipe.liked
+            val repo = RecipeRepository()
+            repo.updateRecipe(currentRecipe)
+            updateStar(starButton)
+        }
     }
 
     private fun setupDeleteButton() {
@@ -33,6 +57,7 @@ class RecipePopup(
             //supprimer la recette de la base de données
             val repo = RecipeRepository()
             repo.deleteRecipe(currentRecipe)
+            dismiss()
         }
     }
 
