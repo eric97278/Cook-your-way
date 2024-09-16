@@ -27,9 +27,8 @@ class RecipeAdapter(
         val recipeDescription: TextView? = view.findViewById(R.id.description_item)
         val recipeDifficultySubtitle: TextView? = view.findViewById(R.id.difficulty_subtitle_item)
         val recipeTimeSubtitle: TextView? = view.findViewById(R.id.time_subtitle_item)
-        val recipeId: TextView? = view.findViewById(R.id.id_item)
-        val recipeIngredients: TextView? = view.findViewById(R.id.ingredients_item)
-        val recipeSteps: TextView? = view.findViewById(R.id.steps_item)
+       // val recipeIngredients: TextView? = view.findViewById(R.id.ingredients_item)
+       // val recipeSteps: TextView? = view.findViewById(R.id.steps_item)
         val starIcon = view.findViewById<ImageView>(R.id.star_icon)
     }
 
@@ -76,13 +75,13 @@ class RecipeAdapter(
             .into(holder.recipeImage)
 
         // Mettre à jour les ingrédients de la recette
-        holder.recipeIngredients?.text = currentRecipe.ingredients
+      //  holder.recipeIngredients?.text = currentRecipe.ingredients
 
         // Mettre à jour les étapes de la recette
-        holder.recipeSteps?.text = currentRecipe.steps
+       // holder.recipeSteps?.text = currentRecipe.steps
 
         // Mettre à jour l'ID de la recette
-        holder.recipeId?.text = currentRecipe.id
+      //  holder.recipeId?.text = currentRecipe.id
 
         // Vérifier si la recette est likée
         if (currentRecipe.liked) {
