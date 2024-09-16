@@ -101,7 +101,7 @@ class RecipeAdapter(
         //interraction lors du clic sur une recette
         holder.itemView.setOnClickListener {
             // Afficher la popup
-            RecipePopup(this).show()
+            RecipePopup(this,currentRecipe).show()
         }
     }
 }
