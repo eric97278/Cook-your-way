@@ -51,4 +51,10 @@ class RecipeRepository {
         })
 
     }
+
+    //mettre a jour un objet recette en base de données
+    fun updateRecipe(recipe: RecipeModel) {
+        databaseRef.child(recipe.id).setValue(recipe)
+    }
+
 }

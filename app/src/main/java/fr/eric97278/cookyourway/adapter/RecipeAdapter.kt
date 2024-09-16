@@ -1,6 +1,5 @@
 package fr.eric97278.cookyourway.adapter
 
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,28 +10,30 @@ import com.bumptech.glide.Glide
 import fr.eric97278.cookyourway.MainActivity
 import fr.eric97278.cookyourway.R
 import fr.eric97278.cookyourway.RecipeModel
+import android.util.Log
+import fr.eric97278.cookyourway.RecipePopup
+import fr.eric97278.cookyourway.RecipeRepository
 
 class RecipeAdapter(
-    private val context: MainActivity,
+    val context: MainActivity,
     private val recipeList: List<RecipeModel>,
-    private val layoutId: Int) : RecyclerView.Adapter<RecipeAdapter.ViewHolder>() {
+    private val layoutId: Int
+) : RecyclerView.Adapter<RecipeAdapter.ViewHolder>() {
 
-    //boite pour ranger tout les composant a controller
+    // Boite pour ranger tous les composants à contrôler
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val recipeImage = view.findViewById<ImageView>(R.id.image_item)
         val recipeName: TextView? = view.findViewById(R.id.name_item)
         val recipeDescription: TextView? = view.findViewById(R.id.description_item)
         val recipeDifficultySubtitle: TextView? = view.findViewById(R.id.difficulty_subtitle_item)
         val recipeTimeSubtitle: TextView? = view.findViewById(R.id.time_subtitle_item)
-        val recipeId:TextView? = view.findViewById(R.id.id_item)
-        val recipeIngredients:TextView? = view.findViewById(R.id.ingredients_item)
-        val recipeSteps:TextView? = view.findViewById(R.id.steps_item)
+        val recipeId: TextView? = view.findViewById(R.id.id_item)
+        val recipeIngredients: TextView? = view.findViewById(R.id.ingredients_item)
+        val recipeSteps: TextView? = view.findViewById(R.id.steps_item)
         val starIcon = view.findViewById<ImageView>(R.id.star_icon)
-
-
     }
 
-    //Injecte le composant
+    // Injecte le composant
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater
             .from(parent.context)
@@ -41,44 +42,66 @@ class RecipeAdapter(
         return ViewHolder(view)
     }
 
-    //combien d'item dans la liste
+    // Nombre d'items dans la liste
     override fun getItemCount(): Int = recipeList.size
 
-    //mets a jour chaque composant
+    // Mets à jour chaque composant
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        // recuperer les informations de la recette
+        // Récupérer les informations de la recette
         val currentRecipe = recipeList[position]
 
-        //mettre a jour le nom de la recette
+        // Récupérer le repository
+        val repo = RecipeRepository()
+
+        // Mettre à jour le nom de la recette
         holder.recipeName?.text = currentRecipe.name
 
-        //mettre a jour la description de la recette
+        // Mettre à jour la description de la recette
         holder.recipeDescription?.text = currentRecipe.description
 
-        //mettre a jour la difficulté de la recette
-        holder.recipeDifficultySubtitle?.text = currentRecipe.difficulty
+        // Mettre à jour la difficulté de la recette
+        holder.recipeDifficultySubtitle?.text = currentRecipe.difficulty.toString()
 
-        //mettre a jour le temps de la recette
+        // Mettre à jour le temps de la recette
         holder.recipeTimeSubtitle?.text = currentRecipe.time.toString()
 
-        //utiliser glide pour récupérer l'image à partir de son lien -> composant
-        Glide.with(context).load(Uri.parse(currentRecipe.imageUrl)).into(holder.recipeImage)
+        // Déboguer l'URL de l'image
+        Log.d("ImageURL", "URL de l'image: ${currentRecipe.imageUrl}")
 
-        //mettre a jour les ingredients de la recette
+        // Utiliser Glide pour récupérer l'image à partir de son lien
+        Glide.with(context)
+            .load(currentRecipe.imageUrl) // Pas besoin de Uri.parse() si c'est une chaîne
+            .placeholder(R.drawable.ic_image_upload) // Image par défaut pendant le chargement
+            .error(R.drawable.ic_image_broken) // Image en cas d'erreur
+            .into(holder.recipeImage)
+
+        // Mettre à jour les ingrédients de la recette
         holder.recipeIngredients?.text = currentRecipe.ingredients
 
-        //mettre a jour les steps de la recette
+        // Mettre à jour les étapes de la recette
         holder.recipeSteps?.text = currentRecipe.steps
 
-        //mettre a jour l'id de la recette
+        // Mettre à jour l'ID de la recette
         holder.recipeId?.text = currentRecipe.id
 
-
-        //vérifier si la recette est liké
+        // Vérifier si la recette est likée
         if (currentRecipe.liked) {
             holder.starIcon.setImageResource(R.drawable.ic_star)
         } else {
             holder.starIcon.setImageResource(R.drawable.ic_unstar)
+        }
+
+        // Implémenter la fonction pour like
+        holder.starIcon.setOnClickListener {
+        // Inverse si le bouton est déjà liké ou non
+        currentRecipe.liked = !currentRecipe.liked
+        // Mettre à jour l'objet recette
+            repo.updateRecipe(currentRecipe)
+}
+        //interraction lors du clic sur une recette
+        holder.itemView.setOnClickListener {
+            // Afficher la popup
+            RecipePopup(this).show()
         }
     }
 }

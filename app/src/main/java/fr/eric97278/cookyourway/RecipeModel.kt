@@ -9,5 +9,5 @@ class RecipeModel (
     val difficulty: String="",
     val time: String="",
     val steps: String="",
-    val liked: Boolean = false
+    var liked: Boolean = false
 )
