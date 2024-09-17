@@ -78,7 +78,7 @@ class HomeFragment (
 
         //recuperer le recyclerView
         val horizontalRecyclerView = view.findViewById<RecyclerView>(R.id.horizontal_recycler_view)
-        horizontalRecyclerView.adapter = RecipeAdapter(context ,recipeList, R.layout.item_horizontal_recipe)
+        horizontalRecyclerView.adapter = RecipeAdapter(context ,recipeList.filter { it.liked }, R.layout.item_horizontal_recipe)
 
         //recuperer le second recyclerview
         val verticalRecyclerView = view.findViewById<RecyclerView>(R.id.vertical_recycler_view)

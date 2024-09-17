@@ -14,7 +14,7 @@ import fr.eric97278.cookyourway.RecipeRepository.Singleton.recipeList
 import fr.eric97278.cookyourway.adapter.RecipeAdapter
 import fr.eric97278.cookyourway.adapter.RecipeItemDecoration
 
-class CollectionFragment : Fragment() {
+class CollectionFragment(mainActivity: MainActivity) : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_collection, container, false)
