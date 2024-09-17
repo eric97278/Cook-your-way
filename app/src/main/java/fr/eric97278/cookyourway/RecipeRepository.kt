@@ -2,9 +2,11 @@ package fr.eric97278.cookyourway
 
 import android.net.Uri
 import android.util.Log
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.UploadTask
 import java.util.UUID
 
 class RecipeRepository {

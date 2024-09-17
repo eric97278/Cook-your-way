@@ -23,7 +23,7 @@ class CollectionFragment(mainActivity: MainActivity) : Fragment() {
 
         // Assurez-vous que recipeList est mis à jour avant de configurer l'adapter
         RecipeRepository().updateData {
-            collectionRecyclerView.adapter = RecipeAdapter(requireActivity() as MainActivity, recipeList, R.layout.item_vertical_recipe)
+            collectionRecyclerView.adapter = RecipeAdapter(requireActivity() as MainActivity, recipeList.filter { it.liked }, R.layout.item_vertical_recipe)
             collectionRecyclerView.layoutManager = LinearLayoutManager(requireContext())
             collectionRecyclerView.addItemDecoration(RecipeItemDecoration())
         }
