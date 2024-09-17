@@ -17,82 +17,64 @@ import kotlin.coroutines.Continuation
 
 class RecipeRepository {
     object Singleton {
-        //donner le lien pour acceder au bucket
+        // Se connecter au bucket Firebase Storage
         private val BUCKET_URL: String = "gs://cook-your-way-7ed5e.appspot.com"
-
-        //se connecter à notre espace de stockage
         val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(BUCKET_URL)
 
-        // se connecter a la réference "recipes"
+        // Se connecter à la référence "recipes" dans Firebase Realtime Database
         val databaseRef = FirebaseDatabase.getInstance().getReference("recipes")
 
-        // se créer une liste qui va contenir nos recettes
+        // Liste des recettes
         val recipeList = arrayListOf<RecipeModel>()
-
-
     }
 
+    // Ajouter une recette à la base de données avec `push()`
+    fun addRecipe(recipe: RecipeModel) {
+        databaseRef.push().setValue(recipe)
+            .addOnSuccessListener {
+                Log.d("RecipeRepository", "Recette ajoutée avec succès")
+            }
+            .addOnFailureListener { exception ->
+                Log.e("RecipeRepository", "Erreur lors de l'ajout de la recette : ${exception.message}")
+            }
+    }
+
+    // Mettre à jour les données
     fun updateData(callback: () -> Unit) {
-        // absorber les données depuis la databaseRef -> liste de recettes
         databaseRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                // retirer les anciennes recettes
                 recipeList.clear()
-                //recolter la liste
                 for (ds in snapshot.children) {
-                    val recipeData = ds.value
-                    Log.d("RecipeData", recipeData.toString())  // Afficher les données brutes avant conversion
-
-
-                    //verifier que la recette n'est pas null
-                    try {
-                        val recipe = ds.getValue(RecipeModel::class.java)
-                        if (recipe != null) {
-                            recipeList.add(recipe)
-                        }
-                    } catch (e: Exception) {
-                        Log.e("RecipeData", "Erreur de conversion : ${e.message}")
+                    val recipe = ds.getValue(RecipeModel::class.java)
+                    if (recipe != null) {
+                        recipeList.add(recipe)
                     }
                 }
-                //actionner le callback
                 callback()
             }
 
-            override fun onCancelled(error: DatabaseError) {
-
-            }
+            override fun onCancelled(error: DatabaseError) {}
         })
-
     }
-    //créer une fonction pour envoyer des chichier sur le storage
+
+    // Fonction pour télécharger une image dans Firebase Storage
     fun uploadImage(file: Uri, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
-        // Générer un nom de fichier unique
         val fileName = UUID.randomUUID().toString() + ".jpg"
         val ref = storageReference.child(fileName)
-
-        // Démarrer la tâche d'envoi
-        val uploadTask = ref.putFile(file)
-
-        // Gérer le succès ou l'échec de l'envoi
-        uploadTask.addOnSuccessListener { taskSnapshot ->
-            // Récupérer l'URL de téléchargement
-            ref.downloadUrl.addOnSuccessListener { uri ->
-                onSuccess(uri.toString())  // Renvoie l'URL de téléchargement via le callback
-            }.addOnFailureListener { exception ->
-                onFailure(exception)  // Gérer une éventuelle erreur dans la récupération de l'URL
+        ref.putFile(file)
+            .addOnSuccessListener {
+                ref.downloadUrl.addOnSuccessListener { uri ->
+                    onSuccess(uri.toString())
+                }.addOnFailureListener { onFailure(it) }
             }
-        }.addOnFailureListener { exception ->
-            onFailure(exception)  // Gérer l'erreur lors de l'upload
-        }
+            .addOnFailureListener { onFailure(it) }
     }
 
-    //mettre a jour un objet recette en base de données
+    // Mettre à jour une recette
     fun updateRecipe(recipe: RecipeModel) {
         databaseRef.child(recipe.id).setValue(recipe)
     }
 
-    //supprimer un objet recette de la base de données
-    fun deleteRecipe(recipe: RecipeModel)= databaseRef.child(recipe.id).removeValue()
-
-
+    // Supprimer une recette
+    fun deleteRecipe(recipe: RecipeModel) = databaseRef.child(recipe.id).removeValue()
 }

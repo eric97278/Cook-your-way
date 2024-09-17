@@ -27,7 +27,12 @@ android {
             )
         }
     }
+
+    packagingOptions {
+        exclude ("META-INF/versions/9/OSGI-INF/MANIFEST.MF")
+    }
     compileOptions {
+
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -46,6 +51,7 @@ dependencies {
     implementation(libs.glide)
     implementation(libs.firebase.database)
     implementation(libs.firebase.storage)
+    implementation(libs.identity.jvm)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

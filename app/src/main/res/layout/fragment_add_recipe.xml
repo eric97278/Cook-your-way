@@ -69,19 +69,19 @@
             android:paddingStart="@dimen/default_margin"
             android:paddingEnd="@dimen/default_margin"/>
 
-        <TextView
+        <EditText
             android:id="@+id/ingredient_input"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:text="@string/add_recipe_page_ingredient_title"
+            android:hint="@string/add_recipe_page_ingredient_title"
             style="@style/TitleTextStyle"
             android:layout_marginStart="@dimen/default_margin"/>
 
-        <TextView
+        <EditText
             android:id="@+id/steps_input"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:text="@string/add_recipe_page_steps_details"
+            android:hint="@string/add_recipe_page_steps_details"
             style="@style/TitleTextStyle"
             android:layout_marginStart="@dimen/default_margin"/>
 
