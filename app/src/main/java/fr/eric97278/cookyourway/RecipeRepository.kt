@@ -2,79 +2,122 @@ package fr.eric97278.cookyourway
 
 import android.net.Uri
 import android.util.Log
-import com.google.android.gms.tasks.Task
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
-import fr.eric97278.cookyourway.RecipeRepository.Singleton.databaseRef
-import fr.eric97278.cookyourway.RecipeRepository.Singleton.recipeList
-import fr.eric97278.cookyourway.RecipeRepository.Singleton.storageReference
 import java.util.UUID
-import kotlin.coroutines.Continuation
 
 class RecipeRepository {
+
     object Singleton {
-        // Se connecter au bucket Firebase Storage
-        private val BUCKET_URL: String = "gs://cook-your-way-7ed5e.appspot.com"
-        val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(BUCKET_URL)
+        private const val BUCKET_URL: String = "gs://cook-your-way-7ed5e.appspot.com"
 
-        // Se connecter à la référence "recipes" dans Firebase Realtime Database
-        val databaseRef = FirebaseDatabase.getInstance().getReference("recipes")
-
-        // Liste des recettes
-        val recipeList = arrayListOf<RecipeModel>()
+        var storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(BUCKET_URL)
+        var databaseRef = FirebaseDatabase.getInstance().getReference("recipes")
+        var recipeList = arrayListOf<RecipeModel>()
     }
 
-    // Ajouter une recette à la base de données avec `push()`
+    // Ajouter une recette à la base de données avec une clé séquentielle
     fun addRecipe(recipe: RecipeModel) {
-        databaseRef.push().setValue(recipe)
-            .addOnSuccessListener {
-                Log.d("RecipeRepository", "Recette ajoutée avec succès")
+        // Obtenir la clé suivante
+        getNextRecipeId { nextId ->
+            if (nextId != null) {
+                recipe.id = nextId
+                Singleton.databaseRef.child(nextId).setValue(recipe)
+                    .addOnSuccessListener {
+                        Log.d("RecipeRepository", "Recette ajoutée avec succès")
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.e("RecipeRepository", "Erreur lors de l'ajout de la recette : ${exception.message}")
+                    }
             }
-            .addOnFailureListener { exception ->
-                Log.e("RecipeRepository", "Erreur lors de l'ajout de la recette : ${exception.message}")
-            }
+        }
     }
 
-    // Mettre à jour les données
-    fun updateData(callback: () -> Unit) {
-        databaseRef.addValueEventListener(object : ValueEventListener {
+    // Méthode pour obtenir la clé suivante dans la séquence
+    private fun getNextRecipeId(callback: (String?) -> Unit) {
+        Singleton.databaseRef.orderByKey().limitToLast(1).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                recipeList.clear()
+                val lastKey = snapshot.children.firstOrNull()?.key
+                val nextId = if (lastKey != null && lastKey.startsWith("recipe")) {
+                    val number = lastKey.removePrefix("recipe").toIntOrNull()
+                    if (number != null) {
+                        "recipe${number + 1}"
+                    } else {
+                        "recipe1"
+                    }
+                } else {
+                    "recipe1"
+                }
+                callback(nextId)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("RecipeRepository", "Erreur lors de l'obtention de la clé suivante : ${error.message}")
+                callback(null)
+            }
+        })
+    }
+
+    fun updateData(callback: () -> Unit) {
+        Singleton.databaseRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                Singleton.recipeList.clear()
                 for (ds in snapshot.children) {
-                    val recipe = ds.getValue(RecipeModel::class.java)
-                    if (recipe != null) {
-                        recipeList.add(recipe)
+                    val recipeData = ds.value
+                    Log.d("RecipeData", recipeData.toString())
+
+                    try {
+                        val recipe = ds.getValue(RecipeModel::class.java)
+                        if (recipe != null) {
+                            Singleton.recipeList.add(recipe)
+                        }
+                    } catch (e: Exception) {
+                        Log.e("RecipeData", "Erreur de conversion : ${e.message}")
                     }
                 }
                 callback()
             }
 
-            override fun onCancelled(error: DatabaseError) {}
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("RecipeRepository", "Erreur de lecture : ${error.message}")
+            }
         })
     }
 
-    // Fonction pour télécharger une image dans Firebase Storage
     fun uploadImage(file: Uri, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
         val fileName = UUID.randomUUID().toString() + ".jpg"
-        val ref = storageReference.child(fileName)
+        val ref = Singleton.storageReference.child(fileName)
+
         ref.putFile(file)
-            .addOnSuccessListener {
+            .addOnSuccessListener { taskSnapshot ->
                 ref.downloadUrl.addOnSuccessListener { uri ->
                     onSuccess(uri.toString())
-                }.addOnFailureListener { onFailure(it) }
+                }.addOnFailureListener { exception ->
+                    onFailure(exception)
+                }
+            }.addOnFailureListener { exception ->
+                onFailure(exception)
             }
-            .addOnFailureListener { onFailure(it) }
     }
 
-    // Mettre à jour une recette
     fun updateRecipe(recipe: RecipeModel) {
-        databaseRef.child(recipe.id).setValue(recipe)
+        Singleton.databaseRef.child(recipe.id).setValue(recipe)
+            .addOnSuccessListener {
+                Log.d("RecipeRepository", "Recette mise à jour avec succès")
+            }
+            .addOnFailureListener { exception ->
+                Log.e("RecipeRepository", "Erreur lors de la mise à jour de la recette : ${exception.message}")
+            }
     }
 
-    // Supprimer une recette
-    fun deleteRecipe(recipe: RecipeModel) = databaseRef.child(recipe.id).removeValue()
+    fun deleteRecipe(recipe: RecipeModel) {
+        Singleton.databaseRef.child(recipe.id).removeValue()
+            .addOnSuccessListener {
+                Log.d("RecipeRepository", "Recette supprimée avec succès")
+            }
+            .addOnFailureListener { exception ->
+                Log.e("RecipeRepository", "Erreur lors de la suppression de la recette : ${exception.message}")
+            }
+    }
 }

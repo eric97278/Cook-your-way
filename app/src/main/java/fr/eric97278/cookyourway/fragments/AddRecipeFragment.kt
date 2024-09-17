@@ -1,7 +1,6 @@
 package fr.eric97278.cookyourway.fragments
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -20,6 +19,7 @@ import fr.eric97278.cookyourway.MainActivity
 import fr.eric97278.cookyourway.R
 import fr.eric97278.cookyourway.RecipeModel
 import fr.eric97278.cookyourway.RecipeRepository
+import java.util.UUID // Utiliser java.util.UUID
 
 class AddRecipeFragment(
     private val context: MainActivity
@@ -27,6 +27,7 @@ class AddRecipeFragment(
     private var file: Uri? = null
     private var uploadedImage: ImageView? = null
 
+    // Déclaration de l'ActivityResultLauncher
     private lateinit var imagePickerLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreateView(
@@ -36,36 +37,44 @@ class AddRecipeFragment(
     ): View? {
         val view = inflater.inflate(R.layout.fragment_add_recipe, container, false)
 
+        // Récupérer l'ImageView pour prévisualiser l'image
         uploadedImage = view.findViewById(R.id.preview_image)
+
+        // Récupérer le bouton pour charger l'image
         val pickupImageButton = view.findViewById<Button>(R.id.upload_button)
 
-        // Initialiser le launcher pour récupérer l'image
+        // Initialiser le launcher pour choisir l'image
         imagePickerLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
                     val data: Intent? = result.data
                     val selectedImageUri: Uri? = data?.data
+
+                    // Vérifier si l'image est bien sélectionnée
                     if (selectedImageUri != null) {
+                        // Afficher l'image sélectionnée dans l'ImageView
                         uploadedImage?.setImageURI(selectedImageUri)
+                        // Stocker l'URI dans la variable file pour un usage ultérieur
                         file = selectedImageUri
                     } else {
-                        Toast.makeText(context, "Aucune image sélectionnée", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Aucune image sélectionnée", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             }
 
-        // Lancement de la sélection d'image
+        // Lorsque l'on clique dessus, cela ouvre la galerie pour choisir une image
         pickupImageButton.setOnClickListener { pickupImage() }
 
-        // Bouton de confirmation de la recette
+        // Récupérer le bouton confirmer
         val confirmButton = view.findViewById<Button>(R.id.confirm_button)
         confirmButton.setOnClickListener { sendForm(view) }
 
         return view
     }
 
-    // Envoi du formulaire pour ajouter une recette
     private fun sendForm(view: View) {
+        // Vérifier que le fichier de l'image est bien sélectionné
         if (file == null) {
             Toast.makeText(context, "Veuillez sélectionner une image", Toast.LENGTH_SHORT).show()
             return
@@ -85,28 +94,30 @@ class AddRecipeFragment(
             return
         }
 
-        // Téléchargement de l'image et création de la recette
+        // Héberger l'image sur Firebase Storage
         val repo = RecipeRepository()
         file?.let {
             repo.uploadImage(it,
                 onSuccess = { imageUrl ->
-                    // Générer un nouvel ID de recette dynamique
+                    // Créer un nouvel objet RecipeModel avec toutes les informations
                     val newRecipe = RecipeModel(
-                        id = getNextRecipeId(context), // Générer un ID unique
+                        id = UUID.randomUUID().toString(), // Utiliser java.util.UUID
                         name = recipeName,
                         description = recipeDescription,
                         difficulty = difficulty,
                         time = time,
                         ingredients = ingredients,
                         steps = steps,
-                        imageUrl = imageUrl
+                        imageUrl = imageUrl.toString() // L'URL de l'image hébergée
                     )
 
-                    // Ajouter la recette dans Firebase
-                    repo.addRecipe(newRecipe)
+                    // Enregistrer la recette dans Firebase Database
+                    repo.addRecipe(newRecipe)  // Utiliser addRecipe
 
                     Toast.makeText(context, "Recette ajoutée avec succès !", Toast.LENGTH_SHORT).show()
-                    resetForm(view) // Réinitialiser le formulaire après l'envoi
+
+                    // Réinitialiser le formulaire ou revenir à une autre page
+                    resetForm(view)
                 },
                 onFailure = { exception ->
                     Toast.makeText(context, "Erreur lors de l'upload : ${exception.message}", Toast.LENGTH_SHORT).show()
@@ -115,37 +126,19 @@ class AddRecipeFragment(
         }
     }
 
-    // Réinitialisation du formulaire
+    // Réinitialiser le formulaire après l'envoi
     private fun resetForm(view: View) {
         view.findViewById<EditText>(R.id.name_input).text.clear()
         view.findViewById<EditText>(R.id.description_input).text.clear()
         view.findViewById<EditText>(R.id.ingredient_input).text.clear()
         view.findViewById<EditText>(R.id.steps_input).text.clear()
-        uploadedImage?.setImageResource(R.drawable.image_default)
+        uploadedImage?.setImageResource(R.drawable.image_default)  // Réinitialiser l'image par défaut
         file = null
     }
 
-    // Lancer la sélection d'image
     private fun pickupImage() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
         imagePickerLauncher.launch(Intent.createChooser(intent, "Sélectionnez une image"))
-    }
-
-    // Méthode pour générer un ID unique pour chaque nouvelle recette
-    private fun getNextRecipeId(context: Context): String {
-        // Utilisation de SharedPreferences pour stocker l'ID courant
-        val sharedPref = context.getSharedPreferences("recipe_prefs", Context.MODE_PRIVATE)
-        val currentId = sharedPref.getInt("recipe_counter", 0) // Récupérer l'ID actuel
-        val newId = currentId + 1 // Incrémenter l'ID
-
-        // Sauvegarder le nouvel ID dans SharedPreferences
-        with(sharedPref.edit()) {
-            putInt("recipe_counter", newId)
-            apply()
-        }
-
-        // Retourner le nouvel ID sous forme de "recipe1", "recipe2", ...
-        return "recipe$newId"
     }
 }

@@ -1,7 +1,7 @@
 package fr.eric97278.cookyourway
 
 class RecipeModel (
-    val id: String ="",
+    var id: String ="",
     val name: String="",
     val description: String="",
     val ingredients: String="",
